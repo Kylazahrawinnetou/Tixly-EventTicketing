@@ -1,0 +1,7 @@
+{
+  "name": "Tixly - QR Ticketing",
+  "description": "A Minimum Viable Product (MVP) for an event registration and ticketing application built with React and Firebase. It allows users to register for events, view their tickets with QR codes, and enables organizers to scan and validate these tickets for check-in.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
