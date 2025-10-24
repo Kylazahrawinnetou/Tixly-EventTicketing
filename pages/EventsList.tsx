@@ -3,6 +3,7 @@ import { db } from '../services/firebase';
 import { Event } from '../types';
 import { Link } from 'react-router-dom';
 import Spinner from '../components/Spinner';
+import { useModal } from '../contexts/ModalContext';
 
 const EventCard: React.FC<{ event: Event }> = ({ event }) => {
   useEffect(() => {
@@ -45,6 +46,7 @@ const EventsList: React.FC = () => {
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
+  const { showAlert } = useModal();
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -60,14 +62,14 @@ const EventsList: React.FC = () => {
       } catch (error)
       {
         console.error("Error fetching events: ", error);
-        alert("Could not fetch events.");
+        showAlert("Error", "Could not fetch events.");
       } finally {
         setLoading(false);
       }
     };
 
     fetchEvents();
-  }, []);
+  }, [showAlert]);
   
   const filteredEvents = useMemo(() => {
     if (!searchQuery) {

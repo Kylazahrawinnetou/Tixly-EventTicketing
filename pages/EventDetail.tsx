@@ -5,6 +5,7 @@ import firebase from 'firebase/compat/app'; // Needed for Timestamp
 import { Event } from '../types';
 import { useAuth } from '../contexts/AuthContext';
 import Spinner from '../components/Spinner';
+import { useModal } from '../contexts/ModalContext';
 
 const EventDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -14,6 +15,7 @@ const EventDetail: React.FC = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
   const { appUser, currentUser } = useAuth();
+  const { showAlert } = useModal();
   
   const [isAlreadyRegistered, setIsAlreadyRegistered] = useState(false);
   const [checkingRegistration, setCheckingRegistration] = useState(true);
@@ -90,7 +92,7 @@ const EventDetail: React.FC = () => {
       const qrCodeString = ticketRef.id;
       await ticketRef.update({ qrCodeString });
 
-      alert('Registration successful! Your ticket is now available in "My Tickets".');
+      showAlert('Registration Successful', 'Your ticket is now available in "My Tickets".');
       navigate('/my-tickets');
 
     } catch (err) {

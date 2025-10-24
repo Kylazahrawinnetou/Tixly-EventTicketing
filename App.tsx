@@ -2,6 +2,7 @@ import React from 'react';
 import { HashRouter, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import { ThemeProvider } from './contexts/ThemeContext';
+import { ModalProvider } from './contexts/ModalContext';
 
 import Layout from './components/Layout';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -20,33 +21,35 @@ const App: React.FC = () => {
   return (
     <AuthProvider>
       <ThemeProvider>
-        <HashRouter>
-          <Routes>
-            <Route path="/" element={<Layout />}>
-              <Route index element={<EventsList />} />
-              <Route path="events" element={<EventsList />} />
-              <Route path="event/:id" element={<EventDetail />} />
-              <Route path="login" element={<Login />} />
-              <Route path="register" element={<Register />} />
-              
-              {/* Participant Protected Routes */}
-              <Route element={<ProtectedRoute allowedRoles={['peserta']} />}>
-                <Route path="my-tickets" element={<MyTickets />} />
-              </Route>
+        <ModalProvider>
+          <HashRouter>
+            <Routes>
+              <Route path="/" element={<Layout />}>
+                <Route index element={<EventsList />} />
+                <Route path="events" element={<EventsList />} />
+                <Route path="event/:id" element={<EventDetail />} />
+                <Route path="login" element={<Login />} />
+                <Route path="register" element={<Register />} />
+                
+                {/* Participant Protected Routes */}
+                <Route element={<ProtectedRoute allowedRoles={['peserta']} />}>
+                  <Route path="my-tickets" element={<MyTickets />} />
+                </Route>
 
-              {/* Organizer Protected Routes */}
-              <Route element={<ProtectedRoute allowedRoles={['panitia']} />}>
-                <Route path="panitia/dashboard" element={<OrganizerDashboard />} />
-                <Route path="panitia/checkin" element={<OrganizerCheckin />} />
-                <Route path="panitia/events/new" element={<EventForm />} />
-                <Route path="panitia/events/edit/:id" element={<EventForm />} />
-                <Route path="panitia/events/:id/attendees" element={<EventAttendees />} />
+                {/* Organizer Protected Routes */}
+                <Route element={<ProtectedRoute allowedRoles={['panitia']} />}>
+                  <Route path="panitia/dashboard" element={<OrganizerDashboard />} />
+                  <Route path="panitia/checkin" element={<OrganizerCheckin />} />
+                  <Route path="panitia/events/new" element={<EventForm />} />
+                  <Route path="panitia/events/edit/:id" element={<EventForm />} />
+                  <Route path="panitia/events/:id/attendees" element={<EventAttendees />} />
+                </Route>
+                
+                <Route path="*" element={<h2 className="text-center text-2xl">404 Not Found</h2>} />
               </Route>
-              
-              <Route path="*" element={<h2 className="text-center text-2xl">404 Not Found</h2>} />
-            </Route>
-          </Routes>
-        </HashRouter>
+            </Routes>
+          </HashRouter>
+        </ModalProvider>
       </ThemeProvider>
     </AuthProvider>
   );

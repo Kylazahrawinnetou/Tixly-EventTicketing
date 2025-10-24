@@ -5,11 +5,13 @@ import firebase from 'firebase/compat/app';
 import { useAuth } from '../contexts/AuthContext';
 import { Event } from '../types';
 import Spinner from '../components/Spinner';
+import { useModal } from '../contexts/ModalContext';
 
 const EventForm: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { currentUser } = useAuth();
+  const { showAlert } = useModal();
   
   const [namaAcara, setNamaAcara] = useState('');
   const [tanggal, setTanggal] = useState('');
@@ -76,11 +78,11 @@ const EventForm: React.FC = () => {
 
       if (isEditMode) {
         await db.collection('events').doc(id).update(eventData);
-        alert('Event updated successfully!');
+        showAlert('Success', 'Event updated successfully!');
       } else {
         const newEventData = { ...eventData, isPublished: false };
         await db.collection('events').add(newEventData);
-        alert('Event created as a draft! Publish it from your dashboard.');
+        showAlert('Success', 'Event created as a draft! Publish it from your dashboard.');
       }
       
       navigate('/panitia/dashboard');

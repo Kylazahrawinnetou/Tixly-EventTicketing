@@ -4,6 +4,7 @@ import { db } from '../services/firebase';
 import { useAuth } from '../contexts/AuthContext';
 import { Event } from '../types';
 import Spinner from '../components/Spinner';
+import { useModal } from '../contexts/ModalContext';
 
 const EventTable: React.FC<{ 
   events: Event[]; 
@@ -60,6 +61,7 @@ const OrganizerDashboard: React.FC = () => {
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
   const { currentUser } = useAuth();
+  const { showAlert, showConfirmation } = useModal();
 
   const fetchEvents = async () => {
     if (!currentUser) return;
@@ -96,31 +98,41 @@ const OrganizerDashboard: React.FC = () => {
   }, [events]);
 
   const handleDelete = async (eventId: string) => {
-    if (window.confirm('Are you sure you want to delete this event? This action cannot be undone.')) {
+    const confirmed = await showConfirmation(
+      'Confirm Deletion',
+      'Are you sure you want to delete this event? This action cannot be undone.',
+      { confirmText: 'Delete' }
+    );
+    if (confirmed) {
       try {
         await db.collection('events').doc(eventId).delete();
-        alert('Event deleted successfully.');
+        showAlert('Success', 'Event deleted successfully.');
         fetchEvents();
       } catch (error) {
         console.error('Error deleting event:', error);
-        alert('Failed to delete event.');
+        showAlert('Error', 'Failed to delete event.');
       }
     }
   };
   
   const handlePublishToggle = async (eventId: string, newStatus: boolean) => {
     if (!newStatus) {
-      if (!window.confirm('Are you sure you want to unpublish this event?')) {
+      const confirmed = await showConfirmation(
+        'Confirm Unpublish',
+        'Are you sure you want to unpublish this event?',
+        { confirmText: 'Unpublish' }
+      );
+      if (!confirmed) {
         return; // Stop if the user cancels
       }
     }
     try {
         await db.collection('events').doc(eventId).update({ isPublished: newStatus });
-        alert(`Event ${newStatus ? 'published' : 'unpublished'} successfully.`);
+        showAlert('Success', `Event ${newStatus ? 'published' : 'unpublished'} successfully.`);
         fetchEvents();
     } catch (error) {
         console.error('Error updating event publish status:', error);
-        alert('Failed to update event status.');
+        showAlert('Error', 'Failed to update event status.');
     }
   };
 
