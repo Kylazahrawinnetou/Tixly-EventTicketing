@@ -1,0 +1,101 @@
+:root{
+  --bg:#0c1626;
+  --nav:#0b1a2a;
+  --card:#101827;
+  --text:#e8ebf5;
+  --muted:#9aa3b2;
+  --accent:#ff7a45;
+  --chip:#f7fafc;
+  --chip-text:#1a202c;
+  --panel:#0e1b30;
+  --radius:18px;
+  --shadow:0 10px 30px rgba(0,0,0,.20);
+}
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,Segoe UI,Arial}
+a{color:inherit;text-decoration:none}
+
+.home{min-height:100vh;}
+
+/* NAV */
+.nav{
+  height:64px;display:flex;align-items:center;justify-content:space-between;
+  padding:0 28px;background:var(--nav);position:sticky;top:0;z-index:20;
+  border-bottom:1px solid rgba(255,255,255,.05);
+}
+.nav__logo{font-weight:700;letter-spacing:.3px}
+.nav__links{display:flex;gap:28px;list-style:none;margin:0;padding:0}
+.nav__link{opacity:.85}
+.nav__link.is-active{opacity:1;font-weight:600}
+.nav__cta{padding:10px 16px;border-radius:12px}
+
+/* HERO - gambarbesar*/
+.hero{
+  position:relative;max-width:1200px;margin:0px auto 16px;border-radius:22px;
+  overflow:hidden;height:500px;background:var(--panel);box-shadow:var(--shadow)
+}
+.hero__bg{width:100%;height:100%;object-fit:cover;display:block}
+.hero__overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.55),rgba(0,0,0,.25))}
+.hero__content{position:absolute;left:36px;bottom:36px;max-width:640px}
+.hero__title{margin: 0 0 16px 0; font-size: 65px;line-height: 1.05; color: #ffffff;font-weight: 700;text-shadow: 0 3px 8px rgba(0, 0, 0, 0.35)}
+
+/* FILTER BAR */
+.filters{max-width:1200px;margin:6px auto 0;padding:0 4px}
+.filters__row{
+  display:grid;grid-template-columns:1.2fr .9fr auto auto;gap:16px;align-items:center
+}
+.input{
+  display:flex;align-items:center;background:white;border-radius:999px;padding:11px 16px;color:#111;
+  box-shadow:var(--shadow)
+}
+.input input{border:none;outline:none;font-size:15px;width:100%;margin-left:8px;background:transparent}
+.promo{
+  display:flex;align-items:center;justify-content:space-between;background:#f2e9ff;color:#2b195f;
+  padding:10px 16px;border-radius:999px;box-shadow:var(--shadow)
+}
+.promo__text{font-size:14px;margin-right:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chip{
+  background:var(--chip);color:var(--chip-text);border:none;border-radius:999px;padding:11px 16px;cursor:pointer;
+  box-shadow:var(--shadow)
+}
+.label-filter{max-width:1200px;margin:18px auto 8px;padding:0 8px;color:white} /*ganti mode terang jdi gelap???*/
+
+/* GRID */
+.grid{
+  max-width:1200px;margin:8px auto 28px;display:grid;grid-template-columns:repeat(3,1fr);gap:26px;
+}
+.card{background:#ffffff10;border-radius:16px;box-shadow:var(--shadow);backdrop-filter:blur(2px)}
+.card__thumb{height:180px;overflow:hidden;border-radius:16px 16px 0 0;background:#0f1524}
+.card__thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.card__body{display:grid;grid-template-columns:1fr auto;gap:10px;padding:12px 12px 12px 12px;background:#fff;border-radius:0 0 16px 16px;color:#1b2332}
+.card__title{grid-column:1 / span 2;margin:0 0 6px 0;font-weight:700;text-align:center;font-size:20px}
+.card__meta{display:grid;gap:5px;color:#54607a;font-size:16px}
+.card__cta{
+  grid-row:2 / span 2;grid-column:2;align-self:center;justify-self:center;
+  width:112px;height:50px;border-radius:14px;text-transform:none;line-height:1.1
+}
+
+/* BUTTONS */
+.btn{border:none;border-radius:12px;padding:5px 16px;cursor:pointer;font-weight:600}
+.btn--accent{background:var(--accent);color:#fff}
+.btn--lg{padding:14px 20px;font-size:14px}
+.btn--ghost{background:#0f1524;color:white;border:1px solid #e2e8f0}
+
+/* FOOTER */
+.footer{
+  background:var(--nav);border-top:1px solid rgba(255,255,255,.06);
+  padding:18px 24px;display:flex;align-items:center;justify-content:space-between;color:#c8cedd
+}
+.footer__contact{display:flex;gap:14px;flex-wrap:wrap}
+
+/* RESPONSIVE */
+@media (max-width:1200px){
+  .grid{grid-template-columns:1fr 1fr}
+  .hero{height:320px}
+}
+@media (max-width:860px){
+  .filters__row{grid-template-columns:1fr;gap:12px}
+  .hero__title{font-size:40px}
+  .grid{grid-template-columns:1fr}
+}
